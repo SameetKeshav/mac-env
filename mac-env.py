@@ -4,26 +4,30 @@ import subprocess
 import sys
 import shutil
 import os
+import platform
 
-def check_homebrew():
-    if shutil.which("brew") is not None:
-        print("✅ Homebrew is already installed.")
-        return
+from macos.homebrew import check_homebrew
 
-    print("🔧 Homebrew not found. Installing...")
+def check_os():
+    os_name = platform.system()
 
-    install_command = [
-        "/bin/bash", "-c",
-        "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-    ]
+    if os_name == "Windows":
+        windows()
+    elif os_name == "Darwin":
+        mac_os()
+    elif os_name == "Linux":
+        linux()
+    else:
+        raise Exception("Unknown OS: {os_name}")
 
-    try:
-        subprocess.run(" ".join(install_command), shell=True, check=True)
-        print("✅ Homebrew installed successfully.")
-    except subprocess.CalledProcessError:
-        print("❌ Failed to install Homebrew.")
-        sys.exit(1)
+def mac_os():
+    raise Exception("Macos")
 
+def windows():
+    raise Exception("Windows Version of this tool has not been created yet")
+
+def linux():
+    raise Exception("Linux Version of this tool has not been created yet")
 
 def main():
     check_homebrew()
